@@ -41,8 +41,6 @@ const App = () => {
     Calc()
   }, [Saidas, Entradas])
 
-  console.log(total)
-
   return (
     <main className='flex flex-col items-center w-full h-screen gap-4'>
 

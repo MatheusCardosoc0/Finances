@@ -32,10 +32,10 @@ const SaidasPage = ({ handleAddValue }: EntradasPageProps) => {
 
       {Saidas &&
         <div>
-          {Saidas.map(entrada => {
-            if (entrada != undefined) return (
-              <div className='blockSaidas'>
-                {entrada?.idValue + ' : '}{'R$ ' + entrada?.value + '.00'}
+          {Saidas.map(saida => {
+            if (saida != undefined) return (
+              <div key={saida.idValue} className='blockSaidas'>
+                {saida?.idValue + ' : '}{'R$ ' + saida?.value + '.00'}
                 </div>
             )
           })}
