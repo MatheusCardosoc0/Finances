@@ -1,48 +1,17 @@
 import React, { FormEvent, useEffect, useState } from 'react'
+import EntradasPage from './components/EntradasPage'
+import SaidasPage from './components/SaidasPage'
+import { useDataContext } from './context/useDataContext'
 
-interface EntradaProps {
-  idValue: string
-  value: string
-}
+
 
 const App = () => {
 
 
-  const [Entradas, setEntradas] = useState<EntradaProps[]>([])
-  const [Saidas, setSaidas] = useState<EntradaProps[]>([])
-  const [TypeOfFinance, setTypeOfFinance] = useState<boolean>(false)
-
-  const setValueEntrada = () => {
-    const arrayz = new Array
-    const arrayx = new Array
-    for (let index = 1; index <= Number(localStorage.getItem("IdIncrementFinance")); index++) {
-
-
-      let value = JSON.parse(localStorage.getItem(`${TypeOfFinance == false? 'ValorEntrada' : 'ValorSaida'}${index}`))
-
-     
-
-      if(TypeOfFinance == false){
-        arrayz.push(value)
-      }else{
-        arrayx.push(value)
-      }
+  const { TypeOfFinance, setValueEntrada, Entradas, total, setTotal, Saidas, limpar } = useDataContext()
 
 
 
-
-
-    }
-    if(TypeOfFinance == false){
-      setEntradas(arrayz)
-    }else{
-      setSaidas(arrayx)
-    }
-  }
-
-  useEffect(() => {
-    setValueEntrada()
-  }, [localStorage.length])
 
   function handleAddValue(e: FormEvent<HTMLFormElement>) {
 
@@ -58,58 +27,40 @@ const App = () => {
       localStorage.setItem("IdIncrementFinance", "1")
     }
 
-    localStorage.setItem(`${TypeOfFinance == false? 'ValorEntrada' : 'ValorSaida'}${localStorage.getItem("IdIncrementFinance")}`, JSON.stringify(data))
+    localStorage.setItem(`${TypeOfFinance == false ? 'ValorEntrada' : 'ValorSaida'}${localStorage.getItem("IdIncrementFinance")}`, JSON.stringify(data))
 
     setValueEntrada()
+    Calc()
   }
 
 
 
-  function limpar() {
-    localStorage.clear()
-    setEntradas([])
+  function Calc() {
+    setTotal(0)
+
+    Entradas.map(entrada => {
+      if (entrada != undefined) return setTotal(prev => prev + Number(entrada?.value))
+    })
+    Saidas.map(entrada => {
+      if (entrada != undefined) return setTotal(prev => prev - Number(entrada?.value))
+    })
   }
 
+  useEffect(() => {
+    Calc()
+  }, [Saidas])
+
+  console.log(total)
 
   return (
     <main className='flex flex-col items-center w-full h-screen gap-10'>
 
       <h1>App de finanças</h1>
-      <form className='bg-green-300 flex flex-col' onSubmit={handleAddValue}>
-
-        <h2>Entradas</h2>
-
-        <input name='idValue' id="idValue" type={"text"} placeholder={"Nome"} />
-        <input name='value' id="value" type={"number"} placeholder={"Valor"} />
-        <button className='' type={"submit"} onClick={() => setTypeOfFinance(false)}>Adicionar</button>
-      </form>
-
-      {Entradas &&
-        <div>
-          {Entradas.map(entrada => {if(entrada != undefined) return(
-            <p>{entrada?.idValue + ' : '}{entrada?.value}</p>
-          )})}
-        </div>}
+      <h2>R$ {total}</h2>
 
 
-
-
-
-      <form className='bg-red-300 flex flex-col' onSubmit={handleAddValue}>
-
-        <h2>Saidas</h2>
-
-        <input name='idValue' id="idValue" type={"text"} placeholder={"Nome"} />
-        <input name='value' id="value" type={"number"} placeholder={"Valor"} />
-        <button className='' type={"submit"} onClick={() => setTypeOfFinance(true)}>Adicionar</button>
-      </form>
-
-      {Saidas &&
-        <div>
-          {Saidas.map(entrada => {if(entrada != undefined) return(
-            <p>{entrada?.idValue + ' : '}{entrada?.value}</p>
-          )})}
-        </div>}
+      <EntradasPage handleAddValue={handleAddValue} />
+      <SaidasPage handleAddValue={handleAddValue} />
 
       <button onClick={() => limpar()}>Limpar</button>
     </main>
