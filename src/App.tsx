@@ -14,23 +14,30 @@ const App = () => {
 
   const setValueEntrada = () => {
     const arrayz = new Array
+    const arrayx = new Array
     for (let index = 1; index <= Number(localStorage.getItem("IdIncrementFinance")); index++) {
 
 
-      let value = JSON.parse(localStorage.getItem(`${TypeOfFinance == false ? 'ValorEntrada' : 'ValorSaida'}${index}`))
+      let value = JSON.parse(localStorage.getItem(`${TypeOfFinance == false? 'ValorEntrada' : 'ValorSaida'}${index}`))
 
-      arrayz.push(value)
+     
 
-
-
-      if (TypeOfFinance == false) {
-        setEntradas()
-      } else {
-        setSaidas([...Saidas,value])
+      if(TypeOfFinance == false){
+        arrayz.push(value)
+      }else{
+        arrayx.push(value)
       }
 
-    }
 
+
+
+
+    }
+    if(TypeOfFinance == false){
+      setEntradas(arrayz)
+    }else{
+      setSaidas(arrayx)
+    }
   }
 
   useEffect(() => {
@@ -51,7 +58,7 @@ const App = () => {
       localStorage.setItem("IdIncrementFinance", "1")
     }
 
-    localStorage.setItem(`${TypeOfFinance == false ? 'ValorEntrada' : 'ValorSaida'}${localStorage.getItem("IdIncrementFinance")}`, JSON.stringify(data))
+    localStorage.setItem(`${TypeOfFinance == false? 'ValorEntrada' : 'ValorSaida'}${localStorage.getItem("IdIncrementFinance")}`, JSON.stringify(data))
 
     setValueEntrada()
   }
@@ -79,9 +86,9 @@ const App = () => {
 
       {Entradas &&
         <div>
-          {Entradas.map(entrada => (
+          {Entradas.map(entrada => {if(entrada != undefined) return(
             <p>{entrada?.idValue + ' : '}{entrada?.value}</p>
-          ))}
+          )})}
         </div>}
 
 
@@ -99,9 +106,9 @@ const App = () => {
 
       {Saidas &&
         <div>
-          {Saidas.map(entrada => (
+          {Saidas.map(entrada => {if(entrada != undefined) return(
             <p>{entrada?.idValue + ' : '}{entrada?.value}</p>
-          ))}
+          )})}
         </div>}
 
       <button onClick={() => limpar()}>Limpar</button>
