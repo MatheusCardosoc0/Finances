@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.gradient-01 {
+  background-image: linear-gradient(
+    to top right,
+    rgba(0, 248, 244, 0.609) 25%,
+    rgba(0, 255, 187, 0.501) 26%,
+    rgba(2, 234, 255, 0.475) 39%,
+    rgba(9, 253, 192, 0.556) 50%,
+    rgba(9, 238, 219, 0.604) 61%,
+    rgb(9, 209, 163) 74%,
+    rgb(6, 236, 186) 100%
+  );
+}
+
+.gradient-02 {
+  background-image: linear-gradient(
+    to top right,
+    rgba(248, 0, 0, 0.609) 25%,
+    rgba(255, 0, 0, 0.501) 26%,
+    rgba(255, 0, 0, 0.69) 39%,
+    rgba(253, 9, 9, 0.556) 50%,
+    rgba(238, 9, 9, 0.604) 61%,
+    rgb(209, 9, 9) 74%,
+    rgb(236, 6, 6) 100%
+  );
+}
+
+.bg-button{
+  box-shadow: inset 2px 2px 20px 6px rgba(0, 0, 0, 0.522);
+  color: rgb(254, 254, 254);
+  font-weight: bold;
+  text-shadow: 2px 2px 1px rgba(7, 7, 7, 0.522);
+}
+
+.blockEntradas{
+  background-color: rgb(41, 208, 41);
+  text-align: center;
+  padding: 8px;
+  box-shadow: inset 1px 0px 8px 6px rgba(5, 5, 5, 0.522);
+  color: rgb(254, 254, 254);
+  font-weight: bold;
+  text-shadow: 2px 2px 1px rgba(7, 7, 7, 0.522);
+}
+
+.blockSaidas{
+  background-color: rgb(208, 41, 41);
+  text-align: center;
+  padding: 8px;
+  box-shadow: inset 1px 0px 8px 6px rgba(5, 5, 5, 0.522);
+  color: rgb(254, 254, 254);
+  font-weight: bold;
+  text-shadow: 2px 2px 1px rgba(7, 7, 7, 0.522);
+}

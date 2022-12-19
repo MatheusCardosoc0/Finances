@@ -18,6 +18,7 @@ type InitialValueProps = {
   limpar: any
   total: number,
   setTotal: any
+  Calc: any
 }
 
 
@@ -49,10 +50,23 @@ export const UseContextProvider = ({ children }: { children: ReactNode }) => {
 
   }
 
+  function Calc() {
+    setTotal(0)
+
+    Entradas.map(entrada => {
+      if (entrada != undefined) return setTotal((prev: number) => prev + Number(entrada?.value))
+    })
+    Saidas.map(entrada => {
+      if (entrada != undefined) return setTotal((prev: number) => prev - Number(entrada?.value))
+    })
+  }
+
+
 
 
   useEffect(() => {
     setValueEntrada()
+    Calc()
   }, [])
 
   function limpar() {
@@ -76,7 +90,8 @@ export const UseContextProvider = ({ children }: { children: ReactNode }) => {
         limpar,
         setValueEntrada,
         setTotal,
-        total
+        total,
+        Calc
       }
     }>
       {children}

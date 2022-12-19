@@ -8,5 +8,6 @@ export const InitialValue = {
   setValueEntrada: () => {},
   limpar: () => {},
   total: 0,
-  setTotal: () => {}
+  setTotal: () => {},
+  Calc: () => {}
 }

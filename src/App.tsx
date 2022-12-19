@@ -2,13 +2,14 @@ import React, { FormEvent, useEffect, useState } from 'react'
 import EntradasPage from './components/EntradasPage'
 import SaidasPage from './components/SaidasPage'
 import { useDataContext } from './context/useDataContext'
+import { MdDelete } from 'react-icons/md'
 
 
 
 const App = () => {
 
 
-  const { TypeOfFinance, setValueEntrada, Entradas, total, setTotal, Saidas, limpar } = useDataContext()
+  const { TypeOfFinance, setValueEntrada, total, Saidas, Entradas, limpar, Calc } = useDataContext()
 
 
 
@@ -35,34 +36,36 @@ const App = () => {
 
 
 
-  function Calc() {
-    setTotal(0)
-
-    Entradas.map(entrada => {
-      if (entrada != undefined) return setTotal(prev => prev + Number(entrada?.value))
-    })
-    Saidas.map(entrada => {
-      if (entrada != undefined) return setTotal(prev => prev - Number(entrada?.value))
-    })
-  }
 
   useEffect(() => {
     Calc()
-  }, [Saidas])
+  }, [Saidas, Entradas])
 
   console.log(total)
 
   return (
-    <main className='flex flex-col items-center w-full h-screen gap-10'>
+    <main className='flex flex-col items-center w-full h-screen gap-4'>
 
-      <h1>App de finanças</h1>
-      <h2>R$ {total}</h2>
+      <h1 className='font-serif text-3xl underline underline-offset-4'>
+        <b className='text-teal-500 drop-shadow-[1px_1px_1px_black]'>
+          Your
+        </b>Finances</h1>
+
+      <h2 className={`${total <= 0 ? 'text-red-500' : 'text-green-500'} `}>
+        <b>Renda final: </b>
+        R$ {total + '.00'}</h2>
 
 
-      <EntradasPage handleAddValue={handleAddValue} />
-      <SaidasPage handleAddValue={handleAddValue} />
+      <div className='flex flex-col md:flex-row gap-2 md:gap-0'>
+        <EntradasPage handleAddValue={handleAddValue} />
+        <SaidasPage handleAddValue={handleAddValue} />
+      </div>
 
-      <button onClick={() => limpar()}>Limpar</button>
+      <button className='flex items-center p-2 bg-black text-white rounded-lg'
+       onClick={() => limpar()}>
+        <MdDelete />
+        Limpar
+      </button>
     </main>
   )
 }
