@@ -30,9 +30,9 @@ const EntradasPage = ({ handleAddValue }: EntradasPageProps) => {
 
       {Entradas &&
         <div className=''>
-          {Entradas.map(entrada => {
-            if (entrada != undefined) return (
-              <div key={entrada.idValue} className='blockEntradas bg-black'>
+          {Entradas.map((entrada, index) => {
+            if (entrada.idValue != undefined) return (
+              <div key={index} className='blockEntradas bg-black'>
                 {entrada?.idValue + ' : '}{'R$ ' + entrada?.value + '.00'}
               </div>
             )

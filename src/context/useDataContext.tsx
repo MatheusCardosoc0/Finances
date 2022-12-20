@@ -36,11 +36,12 @@ export const UseContextProvider = ({ children }: { children: ReactNode }) => {
     const arrayz = new Array
     const arrayx = new Array
     for (let index = 1; index <= Number(localStorage.getItem("IdIncrementFinance")); index++) {
-      let value = JSON.parse(localStorage.getItem(`ValorEntrada${index}`))
-      let valueX = JSON.parse(localStorage.getItem(`ValorSaida${index}`))
 
-      arrayz.push(value)
-      arrayx.push(valueX)
+      let value = JSON.parse(localStorage.getItem(`ValorEntrada${index}`) ?? '{"a": "a"}')
+      let valueX = JSON.parse(localStorage.getItem(`ValorSaida${index}`) ?? '{"a": "a"}')
+
+      arrayz.push(value ?? null)
+      arrayx.push(valueX ?? null)
 
 
     }
@@ -54,25 +55,26 @@ export const UseContextProvider = ({ children }: { children: ReactNode }) => {
     setTotal(0)
 
     Entradas.map(entrada => {
-      if (entrada != undefined) return setTotal((prev: number) => prev + Number(entrada?.value))
+      if (entrada.value != undefined) return setTotal((prev: number) => prev + Number(entrada?.value))
     })
     Saidas.map(entrada => {
-      if (entrada != undefined) return setTotal((prev: number) => prev - Number(entrada?.value))
+      if (entrada.value != undefined) return setTotal((prev: number) => prev - Number(entrada?.value))
     })
   }
 
 
-
+  console.log(Saidas)
 
   useEffect(() => {
     setValueEntrada()
     Calc()
   }, [])
 
+
   function limpar() {
-    localStorage.clear()
     setEntradas([])
     setSaidas([])
+    localStorage.clear()
     setTotal(0)
   }
 
